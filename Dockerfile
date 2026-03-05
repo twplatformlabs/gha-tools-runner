@@ -1,3 +1,4 @@
+# hadolint ignore=DL3007
 FROM ghcr.io/twplatformlabs/runner-base-image:latest
 
 SHELL ["/bin/bash", "-exo", "pipefail", "-c"]
@@ -9,7 +10,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
     LANGUAGE=en_US:en \
     LC_ALL=en_US.UTF-8
 
-# hadolint ignore=DL3007,DL3004,SC2174
+# hadolint ignore=DL3004,DL3007,DL3008,SC2174
 RUN echo 'APT::Get::Assume-Yes "true";' > /etc/apt/apt.conf.d/90circleci && \
     echo 'DPkg::Options "--force-confnew";' >> /etc/apt/apt.conf.d/90circleci && apt-get update && \
     apt-get install --no-install-recommends -y \
