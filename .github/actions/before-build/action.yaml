@@ -16,7 +16,7 @@ runs:
 
   steps:
 
-    - name: load slack-bot credentials
+    - name: load docker.io credentials
       uses: 1password/load-secrets-action@v3
       with:
         export-env: true
