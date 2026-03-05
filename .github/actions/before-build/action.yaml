@@ -1,0 +1,49 @@
+# yamllint disable rule:line-length
+---
+name: setup environment
+
+description: load values from 1password vault
+
+inputs:
+
+  flag:
+    description: input value that can be used to control which actions are run
+    required: false
+    default: ""
+
+runs:
+  using: "composite"
+
+  steps:
+
+    - name: load slack-bot credentials
+      uses: 1password/load-secrets-action@v3
+      with:
+        export-env: true
+      env:
+        DOCKER_LOGIN: op://platform/svc-dockerhub/username
+        DOCKER_PASSWORD: op://platform/svc-dockerhub/password
+
+    - name: set dockerhub access for scout
+      uses: twplatformlabs/gha-tools-actions/confirm-registry@main
+
+    - name: load slack-bot credentials
+      uses: 1password/load-secrets-action@v3
+      with:
+        export-env: true
+      env:
+        SLACK_BOT_TOKEN: op://platform/svc-slack/platform-slack-bot-token
+        GH_TOKEN: op://platform/svc-github/access-token
+        DOCKER_LOGIN: op://platform/svc-github/username
+        DOCKER_PASSWORD: op://platform/svc-github/access-token
+        SNYK_API: op://platform/svc-snyk/api-token
+        SNYK_ORGANIZATION: op://platform/svc-snyk/organization
+
+    - name: Set buildx LABELS
+      shell: bash
+      run: |
+        {
+          echo "CREATED=$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+          echo "REVISION=${GITHUB_SHA}"
+          echo "UBUNTU_BASE=$(head -n 1 Dockerfile)"
+        } >> $GITHUB_ENV
