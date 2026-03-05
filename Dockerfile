@@ -17,6 +17,9 @@ RUN echo 'APT::Get::Assume-Yes "true";' > /etc/apt/apt.conf.d/90circleci && \
             nodejs \
             npm && \
     apt-get clean && rm -rf /var/lib/apt/lists/* && \
+    npm install -g \
+        snyk \
+        bats && \
     download_url=$(curl -s "https://api.github.com/repos/hadolint/hadolint/releases/latest" | jq -r ".assets[] | select(.name == \"hadolint-linux-x86_64\") | .browser_download_url") && \
     curl -LO "${download_url}" && \
     chmod +x hadolint-linux-x86_64 && mv hadolint-linux-x86_64 /usr/local/bin/hadolint && \
