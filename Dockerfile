@@ -3,6 +3,7 @@ FROM ghcr.io/twplatformlabs/runner-base-image:latest
 
 SHELL ["/bin/bash", "-exo", "pipefail", "-c"]
 
+ARG IMAGE_RELEASE
 ENV DEBIAN_FRONTEND=noninteractive \
     TERM=dumb \
     PAGER=cat \
@@ -34,6 +35,7 @@ RUN echo 'APT::Get::Assume-Yes "true";' > /etc/apt/apt.conf.d/90circleci && \
     download_url=$(curl -s "https://api.github.com/repos/sigstore/cosign/releases/latest" | jq -r ".assets[] | select(.name == \"cosign-linux-amd64\") | .browser_download_url") && \
     curl -LO "${download_url}" && \
     chmod +x cosign-linux-amd64 && mv cosign-linux-amd64 /usr/local/bin/cosign && \
-    curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin
+    curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin&& \
+    echo "${IMAGE_RELEASE}" > /etc/image-release
 
     # sudo chown -R root:root /usr/local/lib/node_modules && \

@@ -43,6 +43,9 @@
         "org.opencontainers.image.title": "gha-tools-runner",
         "org.opencontainers.image.description": "Ubuntu-based GitHub runner image precnfigured for authoring custom runners",
         "org.opencontainers.image.base.name": "${UBUNTU_BASE}"
+      },
+      "args": {
+        "IMAGE_RELEASE": "ghcr.io/twplatformlabs/gha-tools-runner:${TAG}"
       }
     }
   }
