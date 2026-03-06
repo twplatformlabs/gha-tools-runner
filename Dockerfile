@@ -17,8 +17,6 @@ RUN echo 'APT::Get::Assume-Yes "true";' > /etc/apt/apt.conf.d/90circleci && \
     apt-get install --no-install-recommends -y \
             nodejs \
             npm && \
-    pip install --no-cache-dir --break-system-packages --ignore-installed \
-             yamllint && \
     apt-get clean && rm -rf /var/lib/apt/lists/* && \
     npm install -g \
         snyk \
