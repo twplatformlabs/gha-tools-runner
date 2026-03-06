@@ -17,6 +17,8 @@ RUN echo 'APT::Get::Assume-Yes "true";' > /etc/apt/apt.conf.d/90circleci && \
     apt-get install --no-install-recommends -y \
             nodejs \
             npm && \
+    pip install --no-cache-dir --break-system-packages --ignore-installed \
+             yamllint && \
     apt-get clean && rm -rf /var/lib/apt/lists/* && \
     npm install -g \
         snyk \
@@ -37,5 +39,3 @@ RUN echo 'APT::Get::Assume-Yes "true";' > /etc/apt/apt.conf.d/90circleci && \
     chmod +x cosign-linux-amd64 && mv cosign-linux-amd64 /usr/local/bin/cosign && \
     curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin&& \
     echo "${IMAGE_RELEASE}" > /etc/image-release
-
-    # sudo chown -R root:root /usr/local/lib/node_modules && \
